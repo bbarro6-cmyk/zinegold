@@ -1,0 +1,398 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Zine Gold</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Disposition : une colonne étroite, onglets en haut, résultat sous le formulaire. */
+:root {
+  color-scheme: light;
+  --bg: #f5f2ea;
+  --surface: #ffffff;
+  --fg: #1d1c24;
+  --muted: #646a82;
+  --accent: #a87512;
+  --accent-ink: #ffffff;
+  --line: #ddd6c3;
+  --chip: #ece6d4;
+  --danger: #b3261e;
+  --display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0a0e21;
+    --surface: #141a35;
+    --fg: #f2eddd;
+    --muted: #9aa3c6;
+    --accent: #e9b949;
+    --accent-ink: #1a1405;
+    --line: #28325c;
+    --chip: #1c2447;
+    --danger: #ff8d80;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0e21;
+  --surface: #141a35;
+  --fg: #f2eddd;
+  --muted: #9aa3c6;
+  --accent: #e9b949;
+  --accent-ink: #1a1405;
+  --line: #28325c;
+  --chip: #1c2447;
+  --danger: #ff8d80;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.5 var(--sans);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 32px;
+  background-image: radial-gradient(900px 420px at 50% -140px, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
+  background-repeat: no-repeat;
+}
+* { box-sizing: border-box; }
+.app { max-width: 460px; margin: 0 auto; display: grid; gap: 16px; }
+.stack { display: grid; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand svg { width: 34px; height: 34px; flex: none; color: var(--accent); }
+.brand h1 { margin: 0; font: 700 36px/1 var(--display); }
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; border-radius: 12px; background: var(--chip); }
+.tabs button { border: 0; background: transparent; color: var(--muted); font: 600 14px var(--sans); padding: 10px 6px; border-radius: 9px; cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--fg); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card { display: grid; gap: 14px; padding: 16px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); min-width: 0; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field > span { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+input, select, textarea { width: 100%; min-width: 0; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: 500 16px var(--sans); }
+textarea { font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; min-height: 150px; resize: vertical; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 380px) { .pair { grid-template-columns: 1fr; } }
+.hint { margin: 0; font-size: 12px; color: var(--muted); }
+.center { text-align: center; }
+.result { text-align: center; }
+.label { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.amount { margin: 0; font: 700 clamp(34px, 11vw, 46px)/1.1 var(--sans); color: var(--accent); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.amount .unit { font: 600 16px var(--sans); color: var(--muted); }
+.metrics, .summary { margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: left; }
+.summary { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.metrics > div, .summary > div, .op-grid > div { background: var(--chip); border-radius: 12px; padding: 10px 12px; min-width: 0; }
+dt { font-size: 12px; color: var(--muted); }
+dd { margin: 2px 0 0; font: 600 16px var(--sans); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.msg { margin: 0; min-height: 1.4em; font-size: 13px; color: var(--muted); }
+.msg.warn { color: var(--danger); }
+.btn { width: 100%; border: 0; border-radius: 12px; padding: 14px; font: 600 15px var(--sans); background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn.alt { background: var(--chip); color: var(--fg); border: 1px solid var(--line); }
+.btn.ghost { width: auto; justify-self: start; background: transparent; color: var(--danger); border: 1px solid var(--line); padding: 8px 12px; font-size: 13px; }
+details summary { cursor: pointer; font-weight: 600; }
+details p { margin: 0; font-size: 13px; color: var(--muted); }
+.op { gap: 10px; }
+.op-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.op-date { font-size: 12px; color: var(--muted); }
+.op-amount { font: 700 24px/1 var(--display); color: var(--accent); }
+.op-note { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.op-grid { margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.empty { margin: 0; padding: 24px 8px; text-align: center; color: var(--muted); }
+</style>
+<main class="app">
+  <header class="brand">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/></svg>
+    <div>
+      <h1>Zine Gold</h1>
+      <p>Calcul d'achat d'or</p>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button type="button" role="tab" data-tab="calcul" aria-selected="true">Calcul</button>
+    <button type="button" role="tab" data-tab="historique" aria-selected="false">Historique</button>
+    <button type="button" role="tab" data-tab="rapport" aria-selected="false">Rapport</button>
+  </nav>
+
+  <section id="calcul" class="stack">
+    <form id="form" class="card" novalidate>
+      <label class="field">
+        <span>Prix du jour, or 22 carats (FCFA le gramme)</span>
+        <input id="prix" type="text" inputmode="decimal" autocomplete="off" placeholder="ex. 45000">
+      </label>
+      <div class="pair">
+        <label class="field">
+          <span>Poids à l'air (g)</span>
+          <input id="air" type="text" inputmode="decimal" autocomplete="off" placeholder="ex. 10,00">
+        </label>
+        <label class="field">
+          <span>Poids dans l'eau (g)</span>
+          <input id="eau" type="text" inputmode="decimal" autocomplete="off" placeholder="ex. 9,44">
+        </label>
+      </div>
+      <p class="hint">Poids dans l'eau : saisissez la perte de poids dans l'eau, c'est-à-dire le poids à l'air moins le poids lu sur la balance quand l'objet est immergé.</p>
+    </form>
+
+    <section class="card result" aria-live="polite">
+      <p class="label">Montant à payer</p>
+      <p class="amount"><span id="montant">—</span><span class="unit" id="unite" hidden> FCFA</span></p>
+      <dl class="metrics">
+        <div><dt>Densité</dt><dd id="densite">—</dd></div>
+        <div><dt>Titre</dt><dd id="titre">—</dd></div>
+        <div><dt>Prix au gramme</dt><dd id="prixg">—</dd></div>
+        <div><dt>Poids à l'air</dt><dd id="airout">—</dd></div>
+      </dl>
+      <p class="msg" id="msg" role="status"></p>
+      <button type="button" class="btn" id="enregistrer" disabled>Enregistrer l'opération</button>
+      <button type="button" class="btn alt" id="partager" disabled>Partager la facture sur WhatsApp</button>
+      <p class="hint center">Enregistré sur cet appareil, dans ce navigateur.</p>
+    </section>
+
+    <details class="card">
+      <summary>Formules utilisées</summary>
+      <p>Densité = poids à l'air ÷ poids dans l'eau, tronquée à 2 décimales. Ici, le poids dans l'eau est la perte de poids dans l'eau.</p>
+      <p>Carat = ((densité - 10,51) × 52,838) ÷ densité, tronqué à 2 décimales.</p>
+      <p>Prix/g = prix 22 carats × carat ÷ 22.</p>
+      <p>Montant = prix/g × poids à l'air.</p>
+      <p>Toutes les décimales sont coupées, sans arrondi.</p>
+      <p>Estimation indicative. La densité ne détecte pas les objets fourrés, comme le tungstène recouvert d'or. Pour une transaction, faites vérifier l'or par un professionnel.</p>
+    </details>
+  </section>
+
+  <section id="historique" class="stack" hidden>
+    <div id="liste" class="stack"></div>
+  </section>
+
+  <section id="rapport" class="stack" hidden>
+    <div class="card">
+      <dl class="summary" id="resume"></dl>
+      <label class="field">
+        <span>Rapport texte</span>
+        <textarea id="texte" readonly></textarea>
+      </label>
+      <p class="hint">Sélectionnez le texte pour le copier.</p>
+    </div>
+  </section>
+</main>
+<script>
+(() => {
+  'use strict';
+  const K_OPS = 'or-galaxy-operations';
+  const K_PRIX = 'or-galaxy-prix';
+  const BAR_MIN = 17.00;
+  const tronque = (x) => Math.floor(x * 100 + 1e-7) / 100;
+  const $ = (id) => document.getElementById(id);
+  const nf0 = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
+  const nf2 = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const dateFr = (iso) => new Date(iso).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' });
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  };
+
+  const num = (s) => {
+    const t = String(s || '').trim().replace(',', '.');
+    const n = t === '' ? NaN : Number(t);
+    return Number.isFinite(n) ? n : NaN;
+  };
+
+  function calcul(prix, air, eau) {
+    if (!(prix > 0) || !(air > 0)) return { err: 'Renseignez le prix et le poids à l’air.' };
+    if (!(eau > 0)) return { err: 'Renseignez le poids dans l’eau.' };
+    const densite = tronque(air / eau);
+    const titre = tronque(((densite - 10.51) * 52.838) / densite);
+    if (titre < 0) return { densite, err: 'Résultat négatif : vérifiez le poids dans l’eau.', bad: true };
+    const info = densite < BAR_MIN ? 'Densité sous le barème (17,00 à 19,26).' : (densite > 19.26 ? 'Densité au-dessus du barème (19,26) : le carat dépasse 24.' : '');
+    const prixG = Math.floor((prix * titre) / 22);
+    const montant = Math.floor(prixG * air);
+    return { densite, titre, prixG, montant, info };
+  }
+  function lireOps() {
+    try {
+      const v = JSON.parse(localStorage.getItem(K_OPS) || '[]');
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+
+  function ecrireOps(ops) {
+    try {
+      localStorage.setItem(K_OPS, JSON.stringify(ops));
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function saisie() {
+    return {
+      prix: num($('prix').value),
+      air: num($('air').value),
+      eau: num($('eau').value)
+    };
+  }
+
+  let courant = null;
+
+  function lienWhatsApp(r) {
+    const texte = [
+      '*Zine Gold : facture d’achat d’or*',
+      'Date : ' + dateFr(new Date().toISOString()),
+      '',
+      'Poids à l’air : ' + nf2.format(r.air) + ' g',
+      'Poids dans l’eau : ' + nf2.format(r.eau) + ' g',
+      'Densité : ' + nf2.format(r.densite),
+      'Titre : ' + nf2.format(r.titre) + ' ct',
+      'Prix du jour (or 22 carats) : ' + nf0.format(r.prix) + ' FCFA le gramme',
+      'Prix au gramme : ' + nf0.format(r.prixG) + ' FCFA',
+      '',
+      '*Montant à payer : ' + nf0.format(r.montant) + ' FCFA*'
+    ].join('\n');
+    return 'https://wa.me/?text=' + encodeURIComponent(texte);
+  }
+
+  function actualiser() {
+    const s = saisie();
+    const r = calcul(s.prix, s.air, s.eau);
+    const ok = !r.err;
+    const vide = Number.isNaN(s.prix) && Number.isNaN(s.air) && Number.isNaN(s.eau);
+    courant = ok ? { ...s, ...r } : null;
+    $('montant').textContent = ok ? nf0.format(r.montant) : '—';
+    $('unite').hidden = !ok;
+    $('densite').textContent = r.densite !== undefined ? nf2.format(r.densite) : '—';
+    $('titre').textContent = ok ? nf2.format(r.titre) + ' ct' : '—';
+    $('prixg').textContent = ok ? nf0.format(r.prixG) + ' FCFA' : '—';
+    $('airout').textContent = s.air > 0 ? nf2.format(s.air) + ' g' : '—';
+    const msg = $('msg');
+    msg.classList.toggle('warn', Boolean(r.bad));
+    msg.textContent = vide ? 'Saisissez les valeurs, le résultat s’affiche tout de suite.' : (r.err || r.info || '');
+    $('enregistrer').disabled = !ok;
+    $('partager').disabled = !ok;
+    try {
+      if (s.prix > 0) localStorage.setItem(K_PRIX, $('prix').value);
+    } catch (e) { /* stockage indisponible : le prix n'est pas mémorisé */ }
+  }
+
+  $('enregistrer').addEventListener('click', () => {
+    if (!courant) return;
+    const ops = lireOps();
+    ops.unshift({
+      id: Date.now(),
+      date: new Date().toISOString(),
+      air: courant.air,
+      eau: courant.eau,
+      prix: courant.prix,
+      densite: courant.densite,
+      titre: courant.titre,
+      prixG: courant.prixG,
+      montant: courant.montant
+    });
+    const saved = ecrireOps(ops);
+    const msg = $('msg');
+    msg.classList.toggle('warn', !saved);
+    msg.textContent = saved ? 'Opération enregistrée.' : 'Stockage indisponible : l’opération n’a pas été gardée.';
+    rendreTout();
+  });
+
+  function rendreHistorique() {
+    const liste = $('liste');
+    liste.textContent = '';
+    const ops = lireOps();
+    if (!ops.length) {
+      liste.append(el('p', 'empty', 'Aucune opération enregistrée. Les calculs sauvegardés apparaissent ici.'));
+      return;
+    }
+    ops.forEach((op) => {
+      const art = el('article', 'card op');
+      const head = el('div', 'op-head');
+      head.append(el('span', 'op-date', dateFr(op.date)), el('span', 'op-amount', nf0.format(op.montant) + ' FCFA'));
+      art.append(head);
+      const grid = el('dl', 'op-grid');
+      [
+        ['Poids à l’air', nf2.format(op.air) + ' g'],
+        ['Densité', nf2.format(op.densite)],
+        ['Titre', nf2.format(op.titre) + ' ct'],
+        ['Prix au gramme', nf0.format(op.prixG) + ' FCFA']
+      ].forEach(([k, v]) => {
+        const box = el('div');
+        box.append(el('dt', '', k), el('dd', '', v));
+        grid.append(box);
+      });
+      art.append(grid);
+      const del = el('button', 'btn ghost', 'Supprimer');
+      del.type = 'button';
+      del.addEventListener('click', () => {
+        if (del.dataset.armed !== '1') {
+          del.dataset.armed = '1';
+          del.textContent = 'Confirmer la suppression';
+          setTimeout(() => {
+            delete del.dataset.armed;
+            del.textContent = 'Supprimer';
+          }, 3000);
+          return;
+        }
+        ecrireOps(lireOps().filter((o) => o.id !== op.id));
+        rendreTout();
+      });
+      art.append(del);
+      liste.append(art);
+    });
+  }
+
+  function rendreRapport() {
+    const ops = lireOps();
+    const poids = ops.reduce((t, o) => t + (Number(o.air) || 0), 0);
+    const total = ops.reduce((t, o) => t + (Number(o.montant) || 0), 0);
+    const resume = $('resume');
+    resume.textContent = '';
+    [
+      ['Opérations', nf0.format(ops.length)],
+      ['Poids total', nf2.format(poids) + ' g'],
+      ['Montant total', nf0.format(total) + ' FCFA']
+    ].forEach(([k, v]) => {
+      const box = el('div');
+      box.append(el('dt', '', k), el('dd', '', v));
+      resume.append(box);
+    });
+    const lignes = ['Zine Gold : rapport des opérations', ''];
+    ops.forEach((o) => {
+      lignes.push(`${dateFr(o.date)} | ${nf2.format(o.air)} g | titre ${nf2.format(o.titre)} ct | ${nf0.format(o.montant)} FCFA`);
+    });
+    lignes.push('', ops.length ? `Total : ${nf0.format(total)} FCFA pour ${nf2.format(poids)} g` : 'Aucune opération.');
+    $('texte').value = lignes.join('\n');
+  }
+
+  function rendreTout() {
+    rendreHistorique();
+    rendreRapport();
+  }
+
+  const onglets = document.querySelectorAll('[role="tab"]');
+  onglets.forEach((b) => b.addEventListener('click', () => {
+    onglets.forEach((o) => o.setAttribute('aria-selected', String(o === b)));
+    ['calcul', 'historique', 'rapport'].forEach((id) => { $(id).hidden = id !== b.dataset.tab; });
+    rendreTout();
+  }));
+
+  $('partager').addEventListener('click', () => {
+    if (!courant) return;
+    const fenetre = window.open(lienWhatsApp(courant), '_blank');
+    if (fenetre) fenetre.opener = null;
+    else $('msg').textContent = 'Le navigateur a bloqué l’ouverture de WhatsApp. Autorisez les fenêtres surgissantes.';
+  });
+  $('form').addEventListener('input', actualiser);
+  $('form').addEventListener('submit', (e) => e.preventDefault());
+
+  try {
+    const p = localStorage.getItem(K_PRIX);
+    if (p) $('prix').value = p;
+  } catch (e) { /* pas de mémoire du prix */ }
+
+  actualiser();
+  rendreTout();
+})();
+</script>
+
+</body></html>
